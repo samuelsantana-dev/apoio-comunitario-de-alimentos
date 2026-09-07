@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prepare": "cd .. && frontend\\node_modules\\.bin\\husky.cmd frontend\\.husky"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

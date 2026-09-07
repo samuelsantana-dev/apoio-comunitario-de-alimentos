@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+cd frontend || exit 1
+npm run lint
+npx prettier --check .
+npm run build
