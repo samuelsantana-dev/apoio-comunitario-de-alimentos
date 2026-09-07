@@ -106,6 +106,7 @@ const submit = handleSubmit(async (values) => {
           :aria-describedby="describedby"
           ><option :value="undefined" disabled>Selecione seu perfil</option>
           <option value="donor">Doador</option>
+          <option value="beneficiary">Família / Beneficiário</option>
           <option value="institution">Instituição / ONG</option>
           <option value="volunteer">Voluntário</option></Select
         ><svg
