@@ -3,28 +3,356 @@ import { computed } from "vue";
 import { useSessionStore } from "../../auth/stores/session.store";
 import type { UserRole } from "../../auth/types/auth";
 
-type DashboardCard = { title: string; description: string; value: string; icon: string; to: string; action: string };
-type DashboardContent = { eyebrow: string; title: string; description: string; primaryAction: string; primaryTo: string; cards: DashboardCard[]; activityTitle: string; activity: { title: string; detail: string; status: string }[] };
+type DashboardCard = {
+  title: string;
+  description: string;
+  value: string;
+  icon: string;
+  to: string;
+  action: string;
+};
+type DashboardContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  primaryAction: string;
+  primaryTo: string;
+  cards: DashboardCard[];
+  activityTitle: string;
+  activity: { title: string; detail: string; status: string }[];
+};
 const session = useSessionStore();
 const dashboards: Record<UserRole, DashboardContent> = {
-  donor: { eyebrow: "Sua contribuição", title: "Sua generosidade chega mais longe.", description: "Publique alimentos, acompanhe os pedidos recebidos e veja o impacto das suas doações.", primaryAction: "+ Nova doação", primaryTo: "/doacoes/nova", cards: [
-    { title: "Doações ativas", value: "3", description: "Disponíveis para a comunidade", icon: "□", to: "/doacoes", action: "Gerenciar doações" }, { title: "Solicitações novas", value: "2", description: "Aguardando sua resposta", icon: "↗", to: "/solicitacoes", action: "Ver solicitações" }, { title: "Famílias apoiadas", value: "18", description: "Desde que você começou", icon: "♥", to: "/impacto", action: "Ver impacto" }], activityTitle: "Solicitações que precisam de atenção", activity: [{ title: "Cestas básicas", detail: "Família Oliveira · 3 cestas", status: "Nova solicitação" }, { title: "Legumes e verduras", detail: "Instituto Mesa Cheia · 15 kg", status: "Em análise" }] },
-  beneficiary: { eyebrow: "Rede de apoio", title: "Encontre o apoio que sua família precisa.", description: "Veja alimentos próximos, acompanhe seus pedidos e mantenha seus dados de retirada atualizados.", primaryAction: "Explorar doações", primaryTo: "/doacoes", cards: [
-    { title: "Doações próximas", value: "12", description: "Na sua região hoje", icon: "□", to: "/doacoes", action: "Ver doações" }, { title: "Meus pedidos", value: "2", description: "Em acompanhamento", icon: "↗", to: "/solicitacoes", action: "Acompanhar pedidos" }, { title: "Retirada agendada", value: "1", description: "Para esta semana", icon: "◷", to: "/historico", action: "Ver detalhes" }], activityTitle: "Seus pedidos recentes", activity: [{ title: "Cesta de alimentos", detail: "Retirada no Instituto Mesa Cheia", status: "Confirmada" }, { title: "Frutas e legumes", detail: "Aguardando aprovação do doador", status: "Em análise" }] },
-  institution: { eyebrow: "Gestão da instituição", title: "Fortaleça o atendimento da sua comunidade.", description: "Organize as necessidades da instituição, solicite doações em volume e acompanhe os recebimentos.", primaryAction: "Buscar doações", primaryTo: "/doacoes", cards: [
-    { title: "Necessidades abertas", value: "4", description: "Itens prioritários da semana", icon: "□", to: "/doacoes", action: "Buscar alimentos" }, { title: "Solicitações enviadas", value: "6", description: "Em acompanhamento", icon: "↗", to: "/solicitacoes", action: "Ver solicitações" }, { title: "Pessoas atendidas", value: "74", description: "Neste mês", icon: "♥", to: "/impacto", action: "Ver impacto" }], activityTitle: "Recebimentos e demandas", activity: [{ title: "Arroz, feijão e óleo", detail: "Doador confirmou a separação", status: "Retirada amanhã" }, { title: "Hortifruti", detail: "Necessidade cadastrada para a semana", status: "Buscando doações" }] },
-  volunteer: { eyebrow: "Logística solidária", title: "Sua rota faz a ajuda acontecer.", description: "Encontre coletas perto de você, aceite entregas e acompanhe cada etapa da jornada solidária.", primaryAction: "Ver entregas disponíveis", primaryTo: "/entregas", cards: [
-    { title: "Entregas disponíveis", value: "5", description: "Prontas para serem aceitas", icon: "□", to: "/entregas", action: "Encontrar uma rota" }, { title: "Em andamento", value: "1", description: "Coleta para hoje", icon: "↗", to: "/entregas", action: "Acompanhar rota" }, { title: "Entregas concluídas", value: "23", description: "Sua contribuição total", icon: "♥", to: "/historico", action: "Ver histórico" }], activityTitle: "Sua próxima entrega", activity: [{ title: "Cestas básicas", detail: "Centro → Família Oliveira · 14h", status: "Aceita" }, { title: "Bananas maduras", detail: "Vila Madalena → Instituto Mesa Cheia", status: "Disponível" }] },
-  admin: { eyebrow: "Visão da plataforma", title: "Comunidade saudável, operação em dia.", description: "Acompanhe a atividade da rede, trate pendências e mantenha a plataforma segura para todos.", primaryAction: "Abrir administração", primaryTo: "/administracao", cards: [
-    { title: "Usuários ativos", value: "1.248", description: "+8,4% nos últimos 30 dias", icon: "◉", to: "/administracao", action: "Gerenciar usuários" }, { title: "Doações este mês", value: "326", description: "42 aguardam moderação", icon: "□", to: "/doacoes", action: "Moderar doações" }, { title: "Pendências críticas", value: "7", description: "Denúncias e validações", icon: "⚑", to: "/administracao", action: "Revisar pendências" }], activityTitle: "Fila de moderação", activity: [{ title: "Cadastro da Associação Recomeçar", detail: "Documentação enviada para validação", status: "Instituição" }, { title: "Doação: 20 cestas básicas", detail: "Aguardando revisão de publicação", status: "Doação" }, { title: "Denúncia em solicitação #184", detail: "Conteúdo reportado por um usuário", status: "Prioridade alta" }] },
+  donor: {
+    eyebrow: "Sua contribuição",
+    title: "Sua generosidade chega mais longe.",
+    description:
+      "Publique alimentos, acompanhe os pedidos recebidos e veja o impacto das suas doações.",
+    primaryAction: "+ Nova doação",
+    primaryTo: "/doacoes/nova",
+    cards: [
+      {
+        title: "Doações ativas",
+        value: "3",
+        description: "Disponíveis para a comunidade",
+        icon: "□",
+        to: "/doacoes",
+        action: "Gerenciar doações",
+      },
+      {
+        title: "Solicitações novas",
+        value: "2",
+        description: "Aguardando sua resposta",
+        icon: "↗",
+        to: "/solicitacoes",
+        action: "Ver solicitações",
+      },
+      {
+        title: "Famílias apoiadas",
+        value: "18",
+        description: "Desde que você começou",
+        icon: "♥",
+        to: "/impacto",
+        action: "Ver impacto",
+      },
+    ],
+    activityTitle: "Solicitações que precisam de atenção",
+    activity: [
+      {
+        title: "Cestas básicas",
+        detail: "Família Oliveira · 3 cestas",
+        status: "Nova solicitação",
+      },
+      {
+        title: "Legumes e verduras",
+        detail: "Instituto Mesa Cheia · 15 kg",
+        status: "Em análise",
+      },
+    ],
+  },
+  beneficiary: {
+    eyebrow: "Rede de apoio",
+    title: "Encontre o apoio que sua família precisa.",
+    description:
+      "Veja alimentos próximos, acompanhe seus pedidos e mantenha seus dados de retirada atualizados.",
+    primaryAction: "Explorar doações",
+    primaryTo: "/doacoes",
+    cards: [
+      {
+        title: "Doações próximas",
+        value: "12",
+        description: "Na sua região hoje",
+        icon: "□",
+        to: "/doacoes",
+        action: "Ver doações",
+      },
+      {
+        title: "Meus pedidos",
+        value: "2",
+        description: "Em acompanhamento",
+        icon: "↗",
+        to: "/solicitacoes",
+        action: "Acompanhar pedidos",
+      },
+      {
+        title: "Retirada agendada",
+        value: "1",
+        description: "Para esta semana",
+        icon: "◷",
+        to: "/historico",
+        action: "Ver detalhes",
+      },
+    ],
+    activityTitle: "Seus pedidos recentes",
+    activity: [
+      {
+        title: "Cesta de alimentos",
+        detail: "Retirada no Instituto Mesa Cheia",
+        status: "Confirmada",
+      },
+      {
+        title: "Frutas e legumes",
+        detail: "Aguardando aprovação do doador",
+        status: "Em análise",
+      },
+    ],
+  },
+  institution: {
+    eyebrow: "Gestão da instituição",
+    title: "Fortaleça o atendimento da sua comunidade.",
+    description:
+      "Organize as necessidades da instituição, solicite doações em volume e acompanhe os recebimentos.",
+    primaryAction: "Buscar doações",
+    primaryTo: "/doacoes",
+    cards: [
+      {
+        title: "Necessidades abertas",
+        value: "4",
+        description: "Itens prioritários da semana",
+        icon: "□",
+        to: "/doacoes",
+        action: "Buscar alimentos",
+      },
+      {
+        title: "Solicitações enviadas",
+        value: "6",
+        description: "Em acompanhamento",
+        icon: "↗",
+        to: "/solicitacoes",
+        action: "Ver solicitações",
+      },
+      {
+        title: "Pessoas atendidas",
+        value: "74",
+        description: "Neste mês",
+        icon: "♥",
+        to: "/impacto",
+        action: "Ver impacto",
+      },
+    ],
+    activityTitle: "Recebimentos e demandas",
+    activity: [
+      {
+        title: "Arroz, feijão e óleo",
+        detail: "Doador confirmou a separação",
+        status: "Retirada amanhã",
+      },
+      {
+        title: "Hortifruti",
+        detail: "Necessidade cadastrada para a semana",
+        status: "Buscando doações",
+      },
+    ],
+  },
+  volunteer: {
+    eyebrow: "Logística solidária",
+    title: "Sua rota faz a ajuda acontecer.",
+    description:
+      "Encontre coletas perto de você, aceite entregas e acompanhe cada etapa da jornada solidária.",
+    primaryAction: "Ver entregas disponíveis",
+    primaryTo: "/entregas",
+    cards: [
+      {
+        title: "Entregas disponíveis",
+        value: "5",
+        description: "Prontas para serem aceitas",
+        icon: "□",
+        to: "/entregas",
+        action: "Encontrar uma rota",
+      },
+      {
+        title: "Em andamento",
+        value: "1",
+        description: "Coleta para hoje",
+        icon: "↗",
+        to: "/entregas",
+        action: "Acompanhar rota",
+      },
+      {
+        title: "Entregas concluídas",
+        value: "23",
+        description: "Sua contribuição total",
+        icon: "♥",
+        to: "/historico",
+        action: "Ver histórico",
+      },
+    ],
+    activityTitle: "Sua próxima entrega",
+    activity: [
+      {
+        title: "Cestas básicas",
+        detail: "Centro → Família Oliveira · 14h",
+        status: "Aceita",
+      },
+      {
+        title: "Bananas maduras",
+        detail: "Vila Madalena → Instituto Mesa Cheia",
+        status: "Disponível",
+      },
+    ],
+  },
+  admin: {
+    eyebrow: "Visão da plataforma",
+    title: "Comunidade saudável, operação em dia.",
+    description:
+      "Acompanhe a atividade da rede, trate pendências e mantenha a plataforma segura para todos.",
+    primaryAction: "Abrir administração",
+    primaryTo: "/administracao",
+    cards: [
+      {
+        title: "Usuários ativos",
+        value: "1.248",
+        description: "+8,4% nos últimos 30 dias",
+        icon: "◉",
+        to: "/administracao",
+        action: "Gerenciar usuários",
+      },
+      {
+        title: "Doações este mês",
+        value: "326",
+        description: "42 aguardam moderação",
+        icon: "□",
+        to: "/doacoes",
+        action: "Moderar doações",
+      },
+      {
+        title: "Pendências críticas",
+        value: "7",
+        description: "Denúncias e validações",
+        icon: "⚑",
+        to: "/administracao",
+        action: "Revisar pendências",
+      },
+    ],
+    activityTitle: "Fila de moderação",
+    activity: [
+      {
+        title: "Cadastro da Associação Recomeçar",
+        detail: "Documentação enviada para validação",
+        status: "Instituição",
+      },
+      {
+        title: "Doação: 20 cestas básicas",
+        detail: "Aguardando revisão de publicação",
+        status: "Doação",
+      },
+      {
+        title: "Denúncia em solicitação #184",
+        detail: "Conteúdo reportado por um usuário",
+        status: "Prioridade alta",
+      },
+    ],
+  },
 };
 const dashboard = computed(() => dashboards[session.user?.role ?? "donor"]);
 </script>
 
 <template>
-  <main class="min-h-screen bg-cream"><section class="mx-auto max-w-6xl px-5 py-8 sm:py-12">
-    <div class="rounded-3xl border bg-white p-7 shadow-sm sm:p-10"><div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"><div class="max-w-3xl"><span class="inline-flex rounded-full bg-forest-50 px-3 py-1 text-xs font-semibold text-forest-700">{{ dashboard.eyebrow }}</span><h1 class="mt-5 font-display text-3xl font-semibold text-ink sm:text-4xl">Olá, {{ session.user?.name }}!</h1><p class="mt-2 font-display text-2xl font-semibold text-forest-700 sm:text-3xl">{{ dashboard.title }}</p><p class="mt-4 max-w-2xl leading-7 text-stone-500">{{ dashboard.description }}</p></div><RouterLink :to="dashboard.primaryTo" class="shrink-0 rounded-xl bg-terracotta-600 px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-terracotta-700">{{ dashboard.primaryAction }}</RouterLink></div>
-      <div class="mt-9 grid gap-4 sm:grid-cols-3"><RouterLink v-for="card in dashboard.cards" :key="card.title" :to="card.to" class="group rounded-2xl border bg-stone-50 p-5 transition hover:border-terracotta-200 hover:bg-white hover:shadow-sm"><span class="grid size-10 place-items-center rounded-xl bg-terracotta-100 text-lg text-terracotta-700">{{ card.icon }}</span><p class="mt-5 text-2xl font-semibold text-ink">{{ card.value }}</p><p class="mt-1 font-semibold text-ink">{{ card.title }}</p><p class="mt-1 text-sm text-stone-500">{{ card.description }}</p><p class="mt-4 text-sm font-semibold text-terracotta-700 group-hover:underline">{{ card.action }} →</p></RouterLink></div></div>
-    <section class="mt-8 rounded-3xl border bg-white p-7 shadow-sm sm:p-8"><div class="flex items-center justify-between gap-4"><div><p class="text-sm font-semibold text-terracotta-600">Acompanhamento</p><h2 class="mt-1 font-display text-2xl font-semibold">{{ dashboard.activityTitle }}</h2></div><RouterLink :to="dashboard.primaryTo" class="text-sm font-semibold text-forest-700 hover:underline">Ver tudo →</RouterLink></div><div class="mt-6 divide-y"><RouterLink v-for="item in dashboard.activity" :key="item.title" :to="dashboard.primaryTo" class="flex flex-col gap-3 py-4 transition first:pt-0 hover:opacity-75 sm:flex-row sm:items-center sm:justify-between"><div><p class="font-semibold text-ink">{{ item.title }}</p><p class="mt-1 text-sm text-stone-500">{{ item.detail }}</p></div><span class="w-fit rounded-full bg-forest-50 px-3 py-1 text-xs font-semibold text-forest-700">{{ item.status }}</span></RouterLink></div></section>
-  </section></main>
+  <main class="min-h-screen bg-cream">
+    <section class="mx-auto max-w-6xl px-5 py-8 sm:py-12">
+      <div class="rounded-3xl border bg-white p-7 shadow-sm sm:p-10">
+        <div
+          class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"
+        >
+          <div class="max-w-3xl">
+            <span
+              class="inline-flex rounded-full bg-forest-50 px-3 py-1 text-xs font-semibold text-forest-700"
+              >{{ dashboard.eyebrow }}</span
+            >
+            <h1
+              class="mt-5 font-display text-3xl font-semibold text-ink sm:text-4xl"
+            >
+              Olá, {{ session.user?.name }}!
+            </h1>
+            <p
+              class="mt-2 font-display text-2xl font-semibold text-forest-700 sm:text-3xl"
+            >
+              {{ dashboard.title }}
+            </p>
+            <p class="mt-4 max-w-2xl leading-7 text-stone-500">
+              {{ dashboard.description }}
+            </p>
+          </div>
+          <RouterLink
+            :to="dashboard.primaryTo"
+            class="shrink-0 rounded-xl bg-terracotta-600 px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-terracotta-700"
+            >{{ dashboard.primaryAction }}</RouterLink
+          >
+        </div>
+        <div class="mt-9 grid gap-4 sm:grid-cols-3">
+          <RouterLink
+            v-for="card in dashboard.cards"
+            :key="card.title"
+            :to="card.to"
+            class="group rounded-2xl border bg-stone-50 p-5 transition hover:border-terracotta-200 hover:bg-white hover:shadow-sm"
+            ><span
+              class="grid size-10 place-items-center rounded-xl bg-terracotta-100 text-lg text-terracotta-700"
+              >{{ card.icon }}</span
+            >
+            <p class="mt-5 text-2xl font-semibold text-ink">{{ card.value }}</p>
+            <p class="mt-1 font-semibold text-ink">{{ card.title }}</p>
+            <p class="mt-1 text-sm text-stone-500">{{ card.description }}</p>
+            <p
+              class="mt-4 text-sm font-semibold text-terracotta-700 group-hover:underline"
+            >
+              {{ card.action }} →
+            </p></RouterLink
+          >
+        </div>
+      </div>
+      <section class="mt-8 rounded-3xl border bg-white p-7 shadow-sm sm:p-8">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="text-sm font-semibold text-terracotta-600">
+              Acompanhamento
+            </p>
+            <h2 class="mt-1 font-display text-2xl font-semibold">
+              {{ dashboard.activityTitle }}
+            </h2>
+          </div>
+          <RouterLink
+            :to="dashboard.primaryTo"
+            class="text-sm font-semibold text-forest-700 hover:underline"
+            >Ver tudo →</RouterLink
+          >
+        </div>
+        <div class="mt-6 divide-y">
+          <RouterLink
+            v-for="item in dashboard.activity"
+            :key="item.title"
+            :to="dashboard.primaryTo"
+            class="flex flex-col gap-3 py-4 transition first:pt-0 hover:opacity-75 sm:flex-row sm:items-center sm:justify-between"
+            ><div>
+              <p class="font-semibold text-ink">{{ item.title }}</p>
+              <p class="mt-1 text-sm text-stone-500">{{ item.detail }}</p>
+            </div>
+            <span
+              class="w-fit rounded-full bg-forest-50 px-3 py-1 text-xs font-semibold text-forest-700"
+              >{{ item.status }}</span
+            ></RouterLink
+          >
+        </div>
+      </section>
+    </section>
+  </main>
 </template>
