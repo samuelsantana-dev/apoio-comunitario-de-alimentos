@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
     "prepare": "cd .. && frontend\\node_modules\\.bin\\husky.cmd frontend\\.husky"
   },
   "dependencies": {
