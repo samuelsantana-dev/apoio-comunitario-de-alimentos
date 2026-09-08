@@ -19,7 +19,7 @@ export const registerSchema = z
     email,
     password,
     passwordConfirmation: z.string().min(1, "Confirme sua senha."),
-    role: z.enum(["donor", "institution", "volunteer"], {
+    role: z.enum(["donor", "beneficiary", "institution", "volunteer"], {
       required_error: "Selecione um tipo de usuário.",
     }),
   })

@@ -1,7 +1,32 @@
-export const donationCategories = ["Hortifruti", "Padaria", "Laticínios", "Refeições prontas", "Mercearia"] as const;
-export const donationUnits = ["kg", "litros", "unidades", "caixas", "cestas"] as const;
-export const donationConditions = ["Lacrado", "Resfriado", "Congelado", "Perecível", "Não perecível"] as const;
-export const donationStatuses = ["Disponível", "Reservado", "Retirado", "Entregue", "Expirado", "Cancelado"] as const;
+export const donationCategories = [
+  "Hortifruti",
+  "Padaria",
+  "Laticínios",
+  "Refeições prontas",
+  "Mercearia",
+] as const;
+export const donationUnits = [
+  "kg",
+  "litros",
+  "unidades",
+  "caixas",
+  "cestas",
+] as const;
+export const donationConditions = [
+  "Lacrado",
+  "Resfriado",
+  "Congelado",
+  "Perecível",
+  "Não perecível",
+] as const;
+export const donationStatuses = [
+  "Disponível",
+  "Reservado",
+  "Retirado",
+  "Entregue",
+  "Expirado",
+  "Cancelado",
+] as const;
 
 export type DonationCategory = (typeof donationCategories)[number];
 export type DonationUnit = (typeof donationUnits)[number];
