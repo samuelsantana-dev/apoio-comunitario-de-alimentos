@@ -5,4 +5,6 @@ npm run lint
 npx prettier --check .
 npx prettier --write .
 npm run typecheck
+npm test
+vitest run
 npm run build

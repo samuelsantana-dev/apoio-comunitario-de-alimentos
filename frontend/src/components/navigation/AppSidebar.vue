@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useSessionStore } from "../../features/auth/stores/session.store";
 import { userRoleLabels } from "../../features/auth/types/auth";
 const session = useSessionStore();
+const router = useRouter();
 const mobileOpen = ref(false);
 const primaryItems = computed(() => {
   const role = session.user?.role;
@@ -32,6 +34,11 @@ const primaryItems = computed(() => {
     items.push({ to: "/instituicao/perfil", label: "Instituição", icon: "⌂" });
   if (role === "admin")
     items.push({ to: "/administracao", label: "Administração", icon: "⚙" });
+  items.push({
+    to: "/destino-sustentavel",
+    label: "Destino sustentável",
+    icon: "♻",
+  });
   return items;
 });
 const secondaryItems = [
@@ -41,6 +48,11 @@ const secondaryItems = [
 ];
 function closeMenu() {
   mobileOpen.value = false;
+}
+function logout() {
+  session.logout();
+  closeMenu();
+  router.push({ name: "login" });
 }
 </script>
 <template>
@@ -111,6 +123,13 @@ function closeMenu() {
         ><span aria-hidden="true">{{ item.icon }}</span
         >{{ item.label }}</RouterLink
       >
+      <button
+        type="button"
+        class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-stone-600 transition hover:bg-stone-100"
+        @click="logout"
+      >
+        <span aria-hidden="true">↪</span>Sair
+      </button>
     </nav>
   </aside>
 </template>

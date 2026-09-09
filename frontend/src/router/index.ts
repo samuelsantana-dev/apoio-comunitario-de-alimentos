@@ -28,21 +28,107 @@ export const router = createRouter({
       component: () => import("../features/dashboard/views/DashboardView.vue"),
       meta: { requiresAuth: true },
     },
-    { path: "/doacoes", name: "donations", component: () => import("../features/donations/views/DonationsListView.vue"), meta: { requiresAuth: true } },
-    { path: "/doacoes/nova", name: "create-donation", component: () => import("../features/donations/views/CreateDonationView.vue"), meta: { requiresAuth: true } },
-    { path: "/doacoes/:id", name: "donation-details", component: () => import("../features/donations/views/DonationDetailsView.vue"), meta: { requiresAuth: true } },
+    {
+      path: "/doacoes",
+      name: "donations",
+      component: () =>
+        import("../features/donations/views/DonationsListView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/doacoes/nova",
+      name: "create-donation",
+      component: () =>
+        import("../features/donations/views/CreateDonationView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/doacoes/:id",
+      name: "donation-details",
+      component: () =>
+        import("../features/donations/views/DonationDetailsView.vue"),
+      meta: { requiresAuth: true },
+    },
     { path: "/minhas-doacoes", redirect: "/doacoes" },
-    { path: "/solicitacoes", name: "requests", component: () => import("../features/requests/views/RequestsView.vue"), meta: { requiresAuth: true } },
-    { path: "/solicitacoes/:id", name: "request-details", component: () => import("../features/requests/views/RequestDetailsView.vue"), meta: { requiresAuth: true } },
-    { path: "/entregas", name: "deliveries", component: () => import("../features/deliveries/views/DeliveriesView.vue"), meta: { requiresAuth: true } },
-    { path: "/entregas/:id", name: "delivery-details", component: () => import("../features/deliveries/views/DeliveryDetailsView.vue"), meta: { requiresAuth: true } },
-    { path: "/perfil", name: "profile", component: () => import("../features/profile/views/ProfileView.vue"), meta: { requiresAuth: true } },
-    { path: "/instituicao/perfil", name: "institution-profile", component: () => import("../features/profile/views/InstitutionProfileView.vue"), meta: { requiresAuth: true } },
-    { path: "/notificacoes", name: "notifications", component: () => import("../features/notifications/views/NotificationsView.vue"), meta: { requiresAuth: true } },
-    { path: "/historico", name: "history", component: () => import("../features/history/views/HistoryView.vue"), meta: { requiresAuth: true } },
-    { path: "/administracao", name: "administration", component: () => import("../features/admin/views/AdministrationView.vue"), meta: { requiresAuth: true } },
-    { path: "/conexoes", name: "connections", component: () => import("../features/connections/views/ConnectionsView.vue"), meta: { requiresAuth: true } },
-    { path: "/impacto", name: "impact", component: () => import("../features/impact/views/ImpactView.vue"), meta: { requiresAuth: true } },
+    {
+      path: "/solicitacoes",
+      name: "requests",
+      component: () => import("../features/requests/views/RequestsView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/solicitacoes/:id",
+      name: "request-details",
+      component: () =>
+        import("../features/requests/views/RequestDetailsView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/entregas",
+      name: "deliveries",
+      component: () =>
+        import("../features/deliveries/views/DeliveriesView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/entregas/:id",
+      name: "delivery-details",
+      component: () =>
+        import("../features/deliveries/views/DeliveryDetailsView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/perfil",
+      name: "profile",
+      component: () => import("../features/profile/views/ProfileView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/instituicao/perfil",
+      name: "institution-profile",
+      component: () =>
+        import("../features/profile/views/InstitutionProfileView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/notificacoes",
+      name: "notifications",
+      component: () =>
+        import("../features/notifications/views/NotificationsView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/historico",
+      name: "history",
+      component: () => import("../features/history/views/HistoryView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/administracao",
+      name: "administration",
+      component: () => import("../features/admin/views/AdministrationView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/conexoes",
+      name: "connections",
+      component: () =>
+        import("../features/connections/views/ConnectionsView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/impacto",
+      name: "impact",
+      component: () => import("../features/impact/views/ImpactView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/destino-sustentavel",
+      name: "sustainable-destination",
+      component: () =>
+        import("../features/sustainability/views/SustainableDestinationView.vue"),
+      meta: { requiresAuth: true },
+    },
     { path: "/:pathMatch(.*)*", redirect: "/login" },
   ],
 });
