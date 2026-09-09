@@ -29,4 +29,7 @@ Regras obrigatórias para o frontend — Apoio Comunitário de Alimentos
 24. Formatar os arquivos modificados com Prettier antes da entrega e corrigir todos os erros reportados pelo ESLint.
 25. Antes de finalizar qualquer funcionalidade, executar `npm run lint`, `npm run test` e `npm run build`.
 26. Preservar o padrão visual acolhedor, comunitário e confiável já existente na aplicação.
+27. Cada feature deve concentrar seus tipos em `types/`. Usar `entity.type.ts` para entidades de domínio, `payload.type.ts` para dados enviados por formulários, `response-api.type.ts` para respostas da API e `service.type.ts` para contratos específicos de serviços. Não criar arquivos vazios: em features pequenas, agrupar os tipos em um único arquivo nomeado de forma clara.
+28. Todo acesso a `localStorage` ou `sessionStorage` deve ocorrer em um serviço dedicado, nunca diretamente em views ou componentes. A leitura e a gravação devem tratar indisponibilidade do armazenamento e exceções sem interromper a interface.
+29. Datas persistidas ou enviadas à API devem usar ISO 8601 (`new Date().toISOString()`). A formatação local, como `pt-BR`, deve ocorrer apenas na camada de apresentação.
 ```

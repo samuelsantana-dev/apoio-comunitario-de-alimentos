@@ -57,6 +57,16 @@ Regras de implementação:
 13. Para combinar classes Tailwind condicionais, use `cn()` de `src/lib/utils.ts`.
 14. Todo código novo ou alterado deve ser formatado conforme a configuração do Prettier e estar sem erros no ESLint.
 15. Antes de concluir, execute `npm run lint`, `npm run test` e `npm run build` dentro de `frontend`.
+16. Se o arquivo .vue passar de 150 linhas, deve ser separado o arquivo .vue e arquivo .ts com a lógica de script.
+17- Cada feature deve ter testes unitários para validações, serviços e lógica relevante. Componentes podem ter testes se houver lógica significativa ou interações complexas.
+18- Cada feature deve ter um arquivo type.ts ou interface.ts para tipos e interfaces da feature, incluindo payloads, entidades e respostas da API. separando a logica para de cada por exemplo
+  features/
+  exemplo/
+    types/
+      entity.type.ts
+      payload.type.ts
+      response-api.type.ts
+      service.type.ts
 
 Fluxo para cada nova funcionalidade:
 1. Definir tipos da entidade e contratos da API.

@@ -126,6 +126,15 @@ const { totalDonations } = useImpactView();
 </template>
 ```
 
+## Tipos e persistência local
+
+- Cada feature deve manter seus tipos em `src/features/nome-da-feature/types`.
+- Use `entity.type.ts` para entidades do domínio; `payload.type.ts` para dados de formulários e mutations; `response-api.type.ts` para respostas da API; e `service.type.ts` para contratos específicos de serviços.
+- Não fragmentar features pequenas sem necessidade: quando houver poucos tipos relacionados, um único arquivo de tipos com nome claro é preferível a arquivos vazios.
+- Views e componentes não devem declarar tipos de domínio ou payloads internamente; devem importá-los da feature.
+- Acesso a `localStorage` e `sessionStorage` deve ficar em services dedicados. Esses services devem tratar ambiente sem armazenamento disponível, dados inválidos e erros de leitura/gravação.
+- Persistir datas em ISO 8601 (`new Date().toISOString()`). Formatar a data para o usuário somente na view ou em um formatador de apresentação.
+
 ## Navegação e permissões
 
 - A navbar/side bar deve existir apenas em `AppSidebar.vue`.
